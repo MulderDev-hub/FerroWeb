@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FerroWeb</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="main.js" defer></script>
+  </head>
+  <body>
+    <div class="app">
+
+      <!-- =========================================================
+           SIDEBAR – Hauptnavigation links
+      ========================================================= -->
+      <aside class="sidebar">
+
+        <!-- Logo / App-Name -->
+        <div class="sidebar-header">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                  stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="logo-text">FerroWeb</span>
+        </div>
+
+        <!-- Navigations-Links -->
+        <nav class="sidebar-nav">
+
+          <a href="#" class="nav-item active" data-view="dashboard">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="3" width="7" height="7" rx="1"
+                    stroke="currentColor" stroke-width="2"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"
+                    stroke="currentColor" stroke-width="2"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"
+                    stroke="currentColor" stroke-width="2"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"
+                    stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+
+          <a href="#" class="nav-item" data-view="seo-audit">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+              <path d="m21 21-4.35-4.35" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>SEO Audit</span>
+          </a>
+
+          <a href="#" class="nav-item" data-view="assets">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="3" width="18" height="18" rx="2"
+                    stroke="currentColor" stroke-width="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"
+                      stroke="currentColor" stroke-width="2"/>
+              <path d="m21 15-5-5L5 21" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Assets</span>
+          </a>
+
+          <a href="#" class="nav-item" data-view="settings">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06
+                       a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09
+                       A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83
+                       l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09
+                       A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83
+                       l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09
+                       a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83
+                       l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09
+                       a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>Einstellungen</span>
+          </a>
+
+        </nav>
+
+        <!-- Aktuelles Projekt am unteren Rand der Sidebar -->
+        <div class="sidebar-footer">
+          <div class="current-project" id="current-project">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span id="project-name-sidebar">Kein Projekt</span>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- =========================================================
+           MAIN – Inhaltsbereich rechts der Sidebar
+      ========================================================= -->
+      <main class="main">
+
+        <!-- Top-Leiste: Seitenname + Ordner-Button -->
+        <header class="topbar">
+          <h1 class="page-title" id="page-title">Dashboard</h1>
+          <button class="btn-primary" id="btn-open-folder">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Ordner öffnen
+          </button>
+        </header>
+
+        <!-- ─── VIEW: Dashboard ─── -->
+        <div class="view active" id="view-dashboard">
+
+          <!-- Leer-Zustand: Kein Projekt geladen -->
+          <div class="empty-state" id="empty-state">
+            <div class="empty-state-inner">
+              <div class="empty-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                        stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h2>Willkommen bei FerroWeb</h2>
+              <p>
+                Wähle einen lokalen Projektordner mit deinen HTML/CSS/JS-Dateien,<br>
+                um eine vollständige SEO- und Performance-Analyse zu starten.
+              </p>
+              <button class="btn-primary btn-large" id="btn-open-folder-empty">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                        stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Projektordner öffnen
+              </button>
+              <p class="empty-hint">
+                Alle Daten bleiben lokal — keine Cloud, keine Uploads.
+              </p>
+            </div>
+          </div>
+
+          <!-- Dashboard-Inhalt: nach Projektauswahl sichtbar -->
+          <div class="dashboard-content hidden" id="dashboard-content">
+
+            <!-- Projekt-Kopfzeile mit Pfad und Neu-Scannen-Button -->
+            <div class="project-header">
+              <div class="project-header-info">
+                <p class="project-path" id="project-path-display">—</p>
+                <p class="project-meta" id="project-meta">Lädt...</p>
+              </div>
+              <button class="btn-secondary" id="btn-rescan">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <polyline points="23 4 23 10 17 10" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Neu scannen
+              </button>
+            </div>
+
+            <!-- Metrikkarten (2×2 Grid) -->
+            <div class="metrics-grid">
+
+              <!-- Karte: Health Score mit animiertem Donut-Diagramm -->
+              <div class="card card-score">
+                <div class="card-header">
+                  <span class="card-label">Health Score</span>
+                  <span class="card-badge badge-neutral">Gesamt</span>
+                </div>
+                <div class="gauge-wrap">
+                  <svg class="score-gauge" viewBox="0 0 120 120">
+                    <!-- Grauer Hintergrundkreis -->
+                    <circle class="gauge-bg" cx="60" cy="60" r="50"
+                            fill="none" stroke-width="10"/>
+                    <!-- Farbiger Fortschrittsring – stroke-dashoffset wird per JS animiert -->
+                    <circle class="gauge-ring" cx="60" cy="60" r="50"
+                            fill="none" stroke-width="10"
+                            stroke-dasharray="314"
+                            stroke-dashoffset="314"
+                            transform="rotate(-90 60 60)"
+                            id="gauge-ring"/>
+                    <!-- Score-Zahl -->
+                    <text class="gauge-score" x="60" y="57"
+                          text-anchor="middle" id="gauge-score-text">--</text>
+                    <!-- Kleine Beschriftung -->
+                    <text class="gauge-sublabel" x="60" y="74"
+                          text-anchor="middle">Punkte</text>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Karte: SEO Probleme -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-label">SEO Probleme</span>
+                  <span class="card-badge badge-error" id="badge-seo">0</span>
+                </div>
+                <div class="card-big-number" id="seo-count">0</div>
+                <div class="card-breakdown">
+                  <div class="breakdown-row">
+                    <span class="dot dot-error"></span>
+                    <span id="seo-errors">0 Fehler</span>
+                  </div>
+                  <div class="breakdown-row">
+                    <span class="dot dot-warning"></span>
+                    <span id="seo-warnings">0 Warnungen</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Karte: Asset Probleme -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-label">Asset Probleme</span>
+                  <span class="card-badge badge-warning" id="badge-assets">0</span>
+                </div>
+                <div class="card-big-number" id="asset-count">0</div>
+                <div class="card-breakdown">
+                  <div class="breakdown-row">
+                    <span class="dot dot-warning"></span>
+                    <span id="asset-large">0 zu groß (&gt;500 KB)</span>
+                  </div>
+                  <div class="breakdown-row">
+                    <span class="dot dot-info"></span>
+                    <span id="asset-missing-alt">0 fehlendes Alt-Attribut</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Karte: Seiten gescannt -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-label">Seiten gescannt</span>
+                  <span class="card-badge badge-success">HTML</span>
+                </div>
+                <div class="card-big-number" id="pages-count">0</div>
+                <div class="card-breakdown">
+                  <div class="breakdown-row">
+                    <span class="dot dot-success"></span>
+                    <span id="pages-ok">0 problemlos</span>
+                  </div>
+                  <div class="breakdown-row">
+                    <span class="dot dot-error"></span>
+                    <span id="pages-issues">0 mit Problemen</span>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /metrics-grid -->
+
+            <!-- Probleme-Liste mit Filterleiste -->
+            <section class="issues-section">
+              <div class="issues-header">
+                <h2>Gefundene Probleme</h2>
+                <div class="filter-group" id="filter-group">
+                  <button class="filter-btn active" data-filter="all">Alle</button>
+                  <button class="filter-btn" data-filter="error">Fehler</button>
+                  <button class="filter-btn" data-filter="warning">Warnungen</button>
+                  <button class="filter-btn" data-filter="info">Hinweise</button>
+                </div>
+              </div>
+              <!-- Wird per JS mit Issue-Einträgen befüllt -->
+              <div class="issues-list" id="issues-list">
+                <div class="no-issues">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
+                          stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <polyline points="22 4 12 14.01 9 11.01"
+                              stroke="currentColor" stroke-width="2"
+                              stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <p>Keine Probleme gefunden — alles sauber!</p>
+                </div>
+              </div>
+            </section>
+
+          </div><!-- /dashboard-content -->
+
+        </div><!-- /view-dashboard -->
+
+
+        <!-- ─── VIEW: SEO Audit ─── -->
+        <div class="view" id="view-seo-audit">
+
+          <!-- Kein Projekt geladen -->
+          <div class="audit-no-project" id="audit-no-project">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+              <path d="m21 21-4.35-4.35" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <h2>Kein Projekt geladen</h2>
+            <p>Öffne zuerst einen Projektordner über das Dashboard.</p>
+            <button class="btn-primary" id="btn-audit-open-project">
+              Zum Dashboard
+            </button>
+          </div>
+
+          <!-- Audit-Inhalt (nach Scan sichtbar) -->
+          <div class="audit-content hidden" id="audit-content">
+
+            <!-- Zusammenfassung: 4 Kennzahlen -->
+            <div class="audit-summary-bar">
+              <div class="audit-stat">
+                <span class="audit-stat-num" id="audit-total">0</span>
+                <span class="audit-stat-label">Seiten gesamt</span>
+              </div>
+              <div class="audit-stat audit-stat--error">
+                <span class="audit-stat-num" id="audit-with-errors">0</span>
+                <span class="audit-stat-label">mit Fehlern</span>
+              </div>
+              <div class="audit-stat audit-stat--warning">
+                <span class="audit-stat-num" id="audit-with-warnings">0</span>
+                <span class="audit-stat-label">mit Warnungen</span>
+              </div>
+              <div class="audit-stat audit-stat--success">
+                <span class="audit-stat-num" id="audit-clean">0</span>
+                <span class="audit-stat-label">sauber</span>
+              </div>
+            </div>
+
+            <!-- Filter-Leiste -->
+            <div class="audit-filter-bar">
+              <div class="filter-group" id="audit-filter-group">
+                <button class="filter-btn active" data-page-filter="all">Alle</button>
+                <button class="filter-btn" data-page-filter="errors">Mit Fehlern</button>
+                <button class="filter-btn" data-page-filter="warnings">Mit Warnungen</button>
+                <button class="filter-btn" data-page-filter="clean">Sauber</button>
+              </div>
+            </div>
+
+            <!-- Seiten-Liste (Accordion) – per JS befüllt -->
+            <div class="page-list" id="page-list"></div>
+
+          </div>
+        </div>
+
+
+        <!-- ─── VIEW: Asset Manager ─── -->
+        <div class="view" id="view-assets">
+
+          <!-- Kein Projekt geladen -->
+          <div class="audit-no-project" id="assets-no-project">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="3" width="18" height="18" rx="2"
+                    stroke="currentColor" stroke-width="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"
+                      stroke="currentColor" stroke-width="2"/>
+              <path d="m21 15-5-5L5 21" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h2>Kein Projekt geladen</h2>
+            <p>Öffne zuerst einen Projektordner über das Dashboard.</p>
+            <button class="btn-primary" id="btn-assets-open-project">
+              Zum Dashboard
+            </button>
+          </div>
+
+          <!-- Asset-Inhalt (nach Scan sichtbar) -->
+          <div class="assets-content hidden" id="assets-content">
+
+            <!-- Zusammenfassung: 4 Kennzahlen -->
+            <div class="audit-summary-bar">
+              <div class="audit-stat">
+                <span class="audit-stat-num" id="assets-total">0</span>
+                <span class="audit-stat-label">Dateien gesamt</span>
+              </div>
+              <div class="audit-stat">
+                <span class="audit-stat-num" id="assets-size">0 KB</span>
+                <span class="audit-stat-label">Gesamtgröße</span>
+              </div>
+              <div class="audit-stat audit-stat--warning">
+                <span class="audit-stat-num" id="assets-large">0</span>
+                <span class="audit-stat-label">zu groß (&gt;500 KB)</span>
+              </div>
+              <div class="audit-stat audit-stat--error">
+                <span class="audit-stat-num" id="assets-critical">0</span>
+                <span class="audit-stat-label">kritisch (&gt;1 MB)</span>
+              </div>
+            </div>
+
+            <!-- Filter + Sortierung -->
+            <div class="assets-toolbar">
+              <div class="filter-group" id="assets-filter-group">
+                <button class="filter-btn active" data-asset-filter="all">Alle</button>
+                <button class="filter-btn" data-asset-filter="image">Bilder</button>
+                <button class="filter-btn" data-asset-filter="css">CSS</button>
+                <button class="filter-btn" data-asset-filter="js">JS</button>
+                <button class="filter-btn" data-asset-filter="font">Fonts</button>
+                <button class="filter-btn" data-asset-filter="large">Zu groß</button>
+              </div>
+              <div class="sort-group">
+                <span class="sort-label">Sortieren:</span>
+                <select class="sort-select" id="assets-sort">
+                  <option value="size-desc">Größe ↓</option>
+                  <option value="size-asc">Größe ↑</option>
+                  <option value="name-asc">Name A–Z</option>
+                  <option value="name-desc">Name Z–A</option>
+                  <option value="type">Typ</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Asset-Tabelle – per JS befüllt -->
+            <div class="asset-table-wrap">
+              <table class="asset-table">
+                <thead>
+                  <tr>
+                    <th>Datei</th>
+                    <th>Typ</th>
+                    <th>Pfad</th>
+                    <th style="text-align:right">Größe</th>
+                    <th style="text-align:center">Aktion</th>
+                  </tr>
+                </thead>
+                <tbody id="asset-table-body"></tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- ─── VIEW: Einstellungen (Platzhalter) ─── -->
+        <div class="view" id="view-settings">
+          <div class="coming-soon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06
+                       a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09
+                       A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83
+                       l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09
+                       A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83
+                       l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09
+                       a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83
+                       l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09
+                       a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <h2>Einstellungen</h2>
+            <p>App-Einstellungen — in Entwicklung.</p>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <!-- =========================================================
+         BILD-VORSCHAU MODAL (Lightbox)
+         Wird per JS geöffnet wenn ein Bild in der Asset-Tabelle
+         angeklickt wird. Zunächst versteckt (hidden).
+    ========================================================= -->
+    <div class="lightbox-overlay hidden" id="lightbox-overlay" role="dialog" aria-modal="true">
+      <div class="lightbox-box">
+
+        <!-- Kopfzeile: Dateiname + Schließen-Button -->
+        <div class="lightbox-header">
+          <div class="lightbox-title-group">
+            <span class="lightbox-filename" id="lightbox-filename">bild.jpg</span>
+            <span class="lightbox-meta" id="lightbox-meta"></span>
+          </div>
+          <button class="lightbox-close" id="lightbox-close" title="Schließen (Esc)">
+            <svg viewBox="0 0 24 24" fill="none">
+              <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round"/>
+              <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Bildbereich: zeigt Ladeindikator oder das Bild -->
+        <div class="lightbox-img-wrap" id="lightbox-img-wrap">
+          <!-- Lade-Spinner (sichtbar bis Bild geladen ist) -->
+          <div class="lightbox-spinner" id="lightbox-spinner">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" opacity="0.25"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round"/>
+            </svg>
+            <span>Lade Vorschau…</span>
+          </div>
+          <!-- Vorschaubild – src wird per JS gesetzt -->
+          <img class="lightbox-img hidden" id="lightbox-img" alt="Bildvorschau" />
+          <!-- Fehleranzeige -->
+          <div class="lightbox-error hidden" id="lightbox-error">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+              <line x1="12" y1="8" x2="12" y2="12" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round"/>
+              <line x1="12" y1="16" x2="12.01" y2="16" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span id="lightbox-error-text">Vorschau konnte nicht geladen werden.</span>
+          </div>
+        </div>
+
+        <!-- Fußzeile: Pfad + Öffnen-Button -->
+        <div class="lightbox-footer">
+          <span class="lightbox-path" id="lightbox-path"></span>
+          <button class="btn-secondary lightbox-open-btn" id="lightbox-open-btn"
+                  title="In Standard-App öffnen">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="15 3 21 3 21 9" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round"/>
+            </svg>
+            In App öffnen
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </body>
+</html>
