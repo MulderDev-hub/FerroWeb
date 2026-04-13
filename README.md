@@ -1,4 +1,4 @@
-# FerroWeb
+# FerroWeb Version 0.1.0
 
 **Lokale Desktop-App für Webentwickler und SEO-Spezialisten.**  
 FerroWeb analysiert HTML/CSS/JS-Dateien direkt vom Dateisystem — ohne Cloud, ohne Uploads, ohne Tracking.
