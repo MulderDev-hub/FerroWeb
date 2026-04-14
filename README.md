@@ -1,4 +1,4 @@
-# FerroWeb Version 0.1.0
+# FerroWeb 0.1.2
 
 **Lokale Desktop-App für Webentwickler und SEO-Spezialisten.**  
 FerroWeb analysiert HTML/CSS/JS-Dateien direkt vom Dateisystem — ohne Cloud, ohne Uploads, ohne Tracking.
@@ -19,6 +19,7 @@ Gebaut mit **Tauri v2** (Rust-Backend + Vanilla-JS-Frontend), läuft auf Windows
 - **Health Score** — gewichteter Gesamtscore (0–100) auf Basis gefundener Fehler, Warnungen und Performance-Probleme
 - Übersicht: SEO-Fehler, Asset-Probleme, gescannte Seiten
 - Gefilterte Problemliste mit konkreten Verbesserungsempfehlungen
+- **Live-Vorschau** — aufklappbarer Bereich mit eingebettetem Webview des Projekts (lokaler HTTP-Server in Rust, dynamischer Port, korrekte MIME-Types für HTML/CSS/JS/Fonts/Bilder)
 
 ### SEO Audit
 - Per-Seite-Analyse aller HTML-Dateien im Projektordner (rekursiv)
@@ -53,6 +54,7 @@ Gebaut mit **Tauri v2** (Rust-Backend + Vanilla-JS-Frontend), läuft auf Windows
 | HTML-Parsing  | `scraper` 0.21 (basiert auf html5ever) |
 | Verzeichnisse | `walkdir` 2                        |
 | Bild-Encoding | `base64` 0.22                      |
+| HTTP-Server   | `tiny_http` (Live-Vorschau)        |
 | Dialoge       | `tauri-plugin-dialog` 2            |
 | Frontend      | Vanilla HTML / CSS / JavaScript    |
 | Styling       | Custom CSS Properties (Dark Mode)  |
@@ -121,9 +123,10 @@ ferroweb/
 
 | Command             | Parameter       | Rückgabe         | Beschreibung                                  |
 |---------------------|-----------------|------------------|-----------------------------------------------|
-| `scan_project`      | `path: String`  | `ScanResults`    | Vollständiger SEO- und Asset-Scan eines Ordners |
-| `get_image_preview` | `path: String`  | `String` (Data-URL) | Bild als `data:image/...;base64,...` zurückgeben |
-| `open_file_path`    | `path: String`  | —                | Datei in Standard-App des OS öffnen           |
+| `scan_project`        | `path: String`  | `ScanResults`       | Vollständiger SEO- und Asset-Scan eines Ordners |
+| `get_image_preview`   | `path: String`  | `String` (Data-URL) | Bild als `data:image/...;base64,...` zurückgeben |
+| `open_file_path`      | `path: String`  | —                   | Datei in Standard-App des OS öffnen           |
+| `start_preview_server`| `path: String`  | `u16` (Port)        | Startet lokalen HTTP-Server für das Projektverzeichnis, gibt den dynamisch vergebenen Port zurück |
 
 Aufgerufen im Frontend via:
 ```js
@@ -166,7 +169,7 @@ Minimum: 0 — Maximum: 100.
 
 ## Geplante Features (Post-MVP)
 
-- [ ] Eingebetteter lokaler HTTP-Server für Live-Vorschau im Webview
+- [x] Eingebetteter lokaler HTTP-Server für Live-Vorschau im Webview
 - [ ] PDF-Export der Audit-Ergebnisse
 - [ ] Automatische Bildkompression
 - [ ] Multi-Projekt-Dashboard

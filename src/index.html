@@ -255,6 +255,31 @@
 
             </div><!-- /metrics-grid -->
 
+            <!-- Live-Vorschau (aufklappbar) -->
+            <section class="preview-section">
+              <button class="preview-toggle" id="preview-toggle" aria-expanded="false">
+                <div class="preview-toggle-left">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="3" width="20" height="14" rx="2"
+                          stroke="currentColor" stroke-width="2"/>
+                    <path d="M8 21h8M12 17v4" stroke="currentColor"
+                          stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  <span>Live-Vorschau</span>
+                  <span class="preview-badge" id="preview-badge">Bereit</span>
+                </div>
+                <svg class="preview-chevron" viewBox="0 0 24 24" fill="none">
+                  <polyline points="6 9 12 15 18 9" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <div class="preview-body" id="preview-body">
+                <div class="preview-inner">
+                  <iframe id="preview-frame" title="Live-Vorschau"></iframe>
+                </div>
+              </div>
+            </section>
+
             <!-- Probleme-Liste mit Filterleiste -->
             <section class="issues-section">
               <div class="issues-header">

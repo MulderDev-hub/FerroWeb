@@ -26,4 +26,4 @@ serde_json = "1"
 scraper  = "0.21"           # HTML-Parser (basiert auf html5ever)
 walkdir  = "2"              # Rekursiver Verzeichnis-Durchlauf
 base64   = "0.22"           # Bild-Encoding für Vorschau im Frontend
-
+tiny_http = "0.12"          

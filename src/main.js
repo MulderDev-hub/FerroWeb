@@ -152,6 +152,9 @@ async function runScan(path) {
     // Scan-Befehl noch nicht implementiert → Demo-Daten zeigen
     renderDashboard(getDemoData(path));
   }
+
+  // Live-Vorschau starten (parallel zum Scan)
+  startLivePreview(path).catch(err => console.error('Preview-Server Fehler:', err));
 }
 
 /**
@@ -915,6 +918,34 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
+
+// ─────────────────────────────────────────────────────────────
+// Live Webpreview
+// ─────────────────────────────────────────────────────────────
+
+let currentPreviewPort = null;
+
+async function startLivePreview(path) {
+  const badge = document.getElementById('preview-badge');
+  if (badge) { badge.textContent = 'Lädt…'; badge.style.color = 'var(--warning)'; }
+
+  currentPreviewPort = await invoke('start_preview_server', { path });
+
+  const iframe = document.getElementById('preview-frame');
+  iframe.src = `http://127.0.0.1:${currentPreviewPort}/index.html`;
+
+  if (badge) { badge.textContent = 'Live'; badge.style.color = 'var(--success)'; }
+}
+
+// Toggle-Button für den Preview-Bereich
+document.getElementById('preview-toggle')?.addEventListener('click', () => {
+  const toggle = document.getElementById('preview-toggle');
+  const body   = document.getElementById('preview-body');
+  const open   = toggle.getAttribute('aria-expanded') === 'true';
+
+  toggle.setAttribute('aria-expanded', String(!open));
+  body.classList.toggle('open', !open);
+});
 
 // ─────────────────────────────────────────────────────────────
 // DEMO-DATEN

@@ -9,9 +9,12 @@ use scraper::{Html, Selector};
 use serde::Serialize;
 use std::{
     collections::HashSet,
-    path::{Path, PathBuf},
+    path::{Path, PathBuf}, // Hier ist Path & PathBuf jetzt zentral
+    fs::File,              // Neu für den Server
+    thread,                // Neu für den Server
 };
 use walkdir::WalkDir;
+use tiny_http::{Server, Response}; // Neu für den Server
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Datenstrukturen
@@ -609,12 +612,78 @@ fn open_file_path(app: tauri::AppHandle, path: String) -> Result<(), String> {
         .map_err(|e| e.to_string())
 }
 
+fn mime_type(path: &PathBuf) -> String {
+    match path.extension().and_then(|e| e.to_str()).unwrap_or("").to_lowercase().as_str() {
+        "html" | "htm" => "text/html; charset=utf-8",
+        "css"          => "text/css; charset=utf-8",
+        "js" | "mjs"   => "application/javascript; charset=utf-8",
+        "json"         => "application/json",
+        "svg"          => "image/svg+xml",
+        "png"          => "image/png",
+        "jpg" | "jpeg" => "image/jpeg",
+        "gif"          => "image/gif",
+        "webp"         => "image/webp",
+        "ico"          => "image/x-icon",
+        "woff"         => "font/woff",
+        "woff2"        => "font/woff2",
+        _              => "application/octet-stream",
+    }.to_string()
+}
+
+#[tauri::command]
+fn start_preview_server(path: String) -> Result<u16, String> {
+    // Port 0 bedeutet: Das OS sucht uns einen freien Port aus
+    let server = Server::http("127.0.0.1:0").map_err(|e| e.to_string())?;
+    let port = server.server_addr().to_string()
+    .split(':')
+    .last()
+    .and_then(|p| p.parse::<u16>().ok())
+    .unwrap_or(0);
+    let root = PathBuf::from(path);
+
+    thread::spawn(move || {
+        for request in server.incoming_requests() {
+            // URL säubern und Pfad bauen
+            let url = request.url().trim_start_matches('/');
+            let mut file_path = root.join(url);
+
+            
+            if file_path.is_dir() {
+                file_path = file_path.join("index.html");
+            }
+
+            if file_path.exists() && file_path.is_file() {
+                if let Ok(file) = File::open(&file_path) {
+                    let mime = mime_type(&file_path);
+                    let response = Response::from_file(file)
+                        .with_header(
+                            tiny_http::Header::from_bytes(
+                                &b"Content-Type"[..],
+                                mime.as_bytes(),
+                            ).unwrap()
+                        );
+                    let _ = request.respond(response);
+                }
+            } else {
+                let response = Response::from_string("Datei nicht gefunden")
+                    .with_status_code(404);
+                let _ = request.respond(response);
+            }
+        }
+    });
+
+    Ok(port)
+}
+
+
+
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![scan_project, open_file_path, get_image_preview])
+        .invoke_handler(tauri::generate_handler![scan_project, open_file_path, get_image_preview, start_preview_server])
         .run(tauri::generate_context!())
         .expect("Fehler beim Starten der Anwendung");
 }
